@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ball Juggling — Neon Arcade",
+  title: "Juggle — Neon Ball Arcade",
   description: "Keep the balls in the air! A neon-styled ball juggling browser game.",
+  icons: { icon: "/icon.svg" },
 };
 
 export default function RootLayout({
