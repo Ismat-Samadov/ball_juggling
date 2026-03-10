@@ -24,7 +24,7 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-[#07051a]/80 backdrop-blur-sm"
+      className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-[#07051a]/80 backdrop-blur-sm px-4"
     >
       {/* Title */}
       <motion.h1
@@ -39,7 +39,7 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="text-cyan-400 text-sm sm:text-base tracking-[0.3em] uppercase mb-8 neon-cyan"
+        className="text-cyan-400 text-sm tracking-[0.3em] uppercase mb-6 neon-cyan"
       >
         Neon Ball Arcade
       </motion.p>
@@ -50,9 +50,9 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.3, type: "spring" }}
-          className="mb-6 px-6 py-2 glass rounded-full text-purple-300 text-sm"
+          className="mb-5 px-5 py-1.5 glass rounded-full text-purple-300 text-sm"
         >
-          Best Score: <span className="font-bold text-purple-100">{gs.highScore.toLocaleString()}</span>
+          Best: <span className="font-bold text-purple-100">{gs.highScore.toLocaleString()}</span>
         </motion.div>
       )}
 
@@ -61,16 +61,17 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.35 }}
-        className="flex gap-3 mb-8"
+        className="flex gap-2 mb-6"
       >
         {difficulties.map((d) => (
           <button
             key={d}
             onClick={() => onSelectDifficulty(d)}
             className={`
-              px-4 py-2 rounded-lg border text-sm font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer
+              px-4 py-2 rounded-lg border text-xs font-bold uppercase tracking-wider
+              transition-all duration-200 cursor-pointer
               ${gs.difficulty === d
-                ? "bg-purple-500/50 border-purple-300 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)]"
+                ? "bg-purple-500/50 border-purple-300 text-white shadow-[0_0_12px_rgba(168,85,247,0.6)]"
                 : "bg-white/5 border-white/20 text-white/60 hover:border-white/40 hover:text-white/80"
               }
             `}
@@ -86,7 +87,7 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.45 }}
       >
-        <NeonButton onClick={() => onStart(gs.difficulty)} className="text-lg px-12 py-4">
+        <NeonButton onClick={() => onStart(gs.difficulty)}>
           Start Game
         </NeonButton>
       </motion.div>
@@ -96,14 +97,14 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="mt-10 glass rounded-xl px-6 py-4 max-w-xs text-center"
+        className="mt-6 glass rounded-xl px-5 py-4 w-full max-w-xs text-center"
       >
-        <p className="text-purple-300 text-xs font-bold uppercase tracking-widest mb-2">How to Play</p>
-        <p className="text-white/60 text-xs leading-relaxed">
-          Move the paddle to keep all balls in the air.
-          <br />Desktop: mouse or ← → keys
-          <br />Mobile: drag your finger
-          <br />Press <kbd className="bg-white/10 px-1 rounded">Esc</kbd> or <kbd className="bg-white/10 px-1 rounded">P</kbd> to pause
+        <p className="text-purple-300 text-[10px] font-bold uppercase tracking-widest mb-2">How to Play</p>
+        <p className="text-white/55 text-xs leading-relaxed">
+          Keep the balls from hitting the floor.
+          <br />Mouse or <kbd className="bg-white/10 px-1 rounded">← →</kbd> keys to move
+          <br />Mobile: drag or tap arrow buttons
+          <br /><kbd className="bg-white/10 px-1 rounded">Esc</kbd> / <kbd className="bg-white/10 px-1 rounded">P</kbd> to pause
         </p>
       </motion.div>
 
@@ -112,13 +113,21 @@ export function MenuScreen({ gs, onStart, onSelectDifficulty, onToggleSound, onT
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
-        className="mt-6 flex gap-6"
+        className="mt-5 flex gap-5"
       >
-        <button onClick={onToggleSound} className="text-white/50 hover:text-white text-xs flex items-center gap-1 cursor-pointer">
-          {gs.soundEnabled ? "🔊" : "🔇"} Sound
+        <button
+          onClick={onToggleSound}
+          className="text-white/50 hover:text-white text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+        >
+          {gs.soundEnabled ? "🔊" : "🔇"}
+          <span>Sound {gs.soundEnabled ? "On" : "Off"}</span>
         </button>
-        <button onClick={onToggleMusic} className="text-white/50 hover:text-white text-xs flex items-center gap-1 cursor-pointer">
-          🎵 Music {gs.musicEnabled ? "On" : "Off"}
+        <button
+          onClick={onToggleMusic}
+          className="text-white/50 hover:text-white text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+        >
+          {gs.musicEnabled ? "🎵" : "🎶"}
+          <span>Music {gs.musicEnabled ? "On" : "Off"}</span>
         </button>
       </motion.div>
     </motion.div>

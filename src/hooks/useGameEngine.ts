@@ -23,7 +23,6 @@ import {
   drawBackground,
   drawBall,
   drawComboPopups,
-  drawLives,
   drawPaddle,
   drawParticles,
 } from "@/utils/renderer";
@@ -217,18 +216,24 @@ export function useGameEngine(): EngineAPI {
       return true;
     });
 
-    // Reset combo on any miss
+    // Handle misses
     if (missCount > 0) {
       const newLives = gs.lives - missCount;
       playMissSound(gs.soundEnabled);
-      updateGs({ combo: 0, lives: newLives });
 
       if (newLives <= 0) {
         // Game over
         playGameOverSound(gs.soundEnabled);
         stopMusic();
-        updateGs({ phase: "gameover" });
+        updateGs({ combo: 0, lives: 0, ballCount: 0, phase: "gameover" });
         return;
+      }
+
+      updateGs({ combo: 0, lives: newLives, ballCount: ballsRef.current.length });
+
+      // Respawn a ball if the court is now empty
+      if (ballsRef.current.length === 0) {
+        setTimeout(spawnBall, 1000);
       }
     }
 
@@ -246,9 +251,6 @@ export function useGameEngine(): EngineAPI {
     ballsRef.current.forEach((b) => drawBall(ctx, b));
     drawPaddle(ctx, paddle);
     popupsRef.current = drawComboPopups(ctx, popupsRef.current);
-
-    // Lives dots at top-centre
-    drawLives(ctx, gsRef.current.lives, cfg.lives, W);
 
     rafRef.current = requestAnimationFrame(loop);
   }, [spawnBall, updateGs]);
