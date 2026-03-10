@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="6" fill="#0a0a1a"/>
+
+  <!-- Paddle glow -->
+  <rect x="5" y="25" width="22" height="4" rx="2" fill="#a855f7" opacity="0.3"/>
+  <rect x="5" y="25" width="22" height="4" rx="2" fill="url(#paddleGrad)"/>
+
+  <!-- Ball outer glow (blurred shadow effect via layered circles) -->
+  <circle cx="16" cy="13" r="8" fill="#a855f7" opacity="0.25"/>
+  <circle cx="16" cy="13" r="6.5" fill="#c084fc" opacity="0.35"/>
+
+  <!-- Ball body -->
+  <circle cx="16" cy="13" r="6" fill="url(#ballGrad)"/>
+
+  <!-- Ball specular highlight -->
+  <circle cx="13.5" cy="10.5" r="2" fill="white" opacity="0.55"/>
+
+  <!-- Small trail dots -->
+  <circle cx="16" cy="5" r="1.2" fill="#c084fc" opacity="0.5"/>
+  <circle cx="15.5" cy="2.5" r="0.7" fill="#a855f7" opacity="0.3"/>
+
+  <defs>
+    <radialGradient id="ballGrad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#e9d5ff"/>
+      <stop offset="45%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#581c87"/>
+    </radialGradient>
+    <linearGradient id="paddleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+</svg>

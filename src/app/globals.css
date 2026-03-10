@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a1a;
+  --foreground: #e0e0ff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+canvas {
+  touch-action: none;
+}
+
+/* Neon glow utilities */
+.neon-text {
+  text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #a855f7,
+    0 0 82px #a855f7,
+    0 0 92px #a855f7;
+}
+
+.neon-cyan {
+  text-shadow:
+    0 0 7px #fff,
+    0 0 10px #06b6d4,
+    0 0 21px #06b6d4,
+    0 0 42px #06b6d4;
+}
+
+.neon-border {
+  box-shadow:
+    0 0 5px #a855f7,
+    0 0 10px #a855f7,
+    inset 0 0 5px rgba(168, 85, 247, 0.1);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scanline effect overlay */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
