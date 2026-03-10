@@ -110,7 +110,8 @@ export function useGameEngine(): EngineAPI {
     if (!canvas) return;
     const cfg = DIFFICULTY_CONFIGS[gsRef.current.difficulty];
     if (ballsRef.current.length >= cfg.maxBalls) return;
-    ballsRef.current.push(createBall(canvas.width, canvas.height, cfg.speedMult));
+    const dpr = window.devicePixelRatio || 1;
+    ballsRef.current.push(createBall(canvas.width / dpr, canvas.height / dpr, cfg.speedMult));
     playSpawnSound(gsRef.current.soundEnabled);
     updateGs({ ballCount: ballsRef.current.length });
   }, [updateGs]);
@@ -137,8 +138,12 @@ export function useGameEngine(): EngineAPI {
     }
 
     const cfg = DIFFICULTY_CONFIGS[gs.difficulty];
-    const W = canvas.width;
-    const H = canvas.height;
+    // canvas.width/height are physical pixels; drawing coords are logical (CSS) pixels
+    // because GameCanvas applies ctx.setTransform(dpr, …). Divide by DPR to get
+    // the coordinate space that matches what's actually visible on screen.
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.width / dpr;
+    const H = canvas.height / dpr;
 
     // ── Paddle movement ────────────────────────────────────────────────────────
     const paddle = paddleRef.current;
@@ -258,12 +263,16 @@ export function useGameEngine(): EngineAPI {
     if (!canvas) return;
 
     // Reset
+    const dpr = window.devicePixelRatio || 1;
+    const cW = canvas.width / dpr;
+    const cH = canvas.height / dpr;
+
     ballsRef.current = [];
     particlesRef.current = [];
     popupsRef.current = [];
     paddleRef.current = {
-      x: canvas.width / 2,
-      y: canvas.height - 50,
+      x: cW / 2,
+      y: cH - 50,
       width: 110,
       height: PADDLE_HEIGHT,
       vx: 0,
@@ -274,7 +283,7 @@ export function useGameEngine(): EngineAPI {
     // Spawn initial balls
     for (let i = 0; i < cfg.initialBalls; i++) {
       setTimeout(() => {
-        ballsRef.current.push(createBall(canvas.width, canvas.height, cfg.speedMult));
+        ballsRef.current.push(createBall(cW, cH, cfg.speedMult));
         updateGs({ ballCount: ballsRef.current.length });
       }, i * 300);
     }
@@ -371,13 +380,14 @@ export function useGameEngine(): EngineAPI {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      mouseXRef.current = (e.clientX - rect.left) * (canvas.width / rect.width);
+      // Game world is in logical (CSS) pixels — no DPR multiplication needed
+      mouseXRef.current = e.clientX - rect.left;
     };
     const onTouchMove = (e: TouchEvent) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      touchXRef.current = (e.touches[0].clientX - rect.left) * (canvas.width / rect.width);
+      touchXRef.current = e.touches[0].clientX - rect.left;
     };
     const onTouchEnd = () => { touchXRef.current = null; };
 
